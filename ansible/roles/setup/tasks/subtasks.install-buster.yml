@@ -1,0 +1,15 @@
+---
+- name: "create .ssh folder"
+  file: path="~/.ssh" state=directory
+- name: "establish public .ssh keypair"
+  copy: src="{{item.src}}" dest="{{item.dest}}" mode="{{item.mode}}"
+  with_items:
+    - { src: "id_rsa", dest: "~/.ssh/id_rsa", mode: 600 }
+    - { src: "id_rsa.pub", dest: "~/.ssh/id_rsa.pub", mode: 644 }
+- include: "operations/download.yml"
+  vars:
+    name: "buster"
+    git_url: "ssh://git@stash2015.rd.rcg.local:7999/deploy/buster.git"
+    local_git_url: "http://stash2015.rd.rcg.local:7990/scm/deploy/buster.git"
+    version: "{{version_buster}}"
+  when: "update_buster"

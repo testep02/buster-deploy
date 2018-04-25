@@ -1,0 +1,15 @@
+---
+- set_fact:
+    applications_dir: "{{playbook_dir}}/../applications"
+- name: "copy sql script"
+  copy: src="buster.sql" dest="/opt/"
+- name: "run buster sql"
+  shell: |
+    PGPASSWORD=i4m4pldg psql -h localhost -p 5432 -U buster -f /opt/buster.sql
+  when: "update_buster"
+- name: "create service"
+  template: src="buster.service.j2" dest="/etc/systemd/system/buster.service"
+- name: "daemon reload"
+  command: "systemctl daemon-reload"
+- name: "restart buster"
+  service: name="buster" enabled=yes state=restarted

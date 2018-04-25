@@ -1,0 +1,4 @@
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+{% for user in postgresql_pg_hba_users: %}
+{{user.type}}       {{user.database}}       {{user.user}}       {{user.address}}        {{user.method}}
+{% endfor %}

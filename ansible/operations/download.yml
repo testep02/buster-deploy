@@ -1,0 +1,12 @@
+---
+- name: "download {{name}}"
+  git:
+    repo: "{{git_url}}"
+    dest:  "{{playbook_dir}}/../applications/{{name}}"
+    ssh_opts: "-o StrictHostKeyChecking=no"
+    version: "{{version}}"
+    force: yes
+- name: "setup for local development"
+  command: "git remote set-url origin {{local_git_url}}"
+  args:
+    chdir: "{{playbook_dir}}/../applications/{{name}}"

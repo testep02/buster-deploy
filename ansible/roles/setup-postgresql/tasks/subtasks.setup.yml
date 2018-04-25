@@ -1,0 +1,15 @@
+---
+- name: "setup postgresql remote access"
+  lineinfile: dest="{{postgresql_configuration_filepath}}" regexp="{{postgresql_remote_access_line_regexp}}" line="{{postgresql_remote_access_line_replace}}"
+- name: "setup postgresql pg hba block"
+  template: src="pg_hba.conf.j2" dest="{{postgresql_hba_configuration_filepath}}"
+- name: "restart postgresql"
+  service: name="postgresql-9.5" state=restarted
+- name: "setup postgresql databases"
+  become_user: postgres
+  postgresql_db: name="{{item}}"
+  with_items: "{{postgresql_databases}}"
+- name: "setup postgresql users"
+  become_user: postgres
+  postgresql_user: name="{{item.name}}" password="{{item.password}}" db="{{item.db}}" role_attr_flags="{{item.role_attr_flags}}"
+  with_items: "{{postgresql_users}}"

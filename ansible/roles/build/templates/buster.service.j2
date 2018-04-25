@@ -1,0 +1,11 @@
+[Unit]
+Description=buster
+After=syslog.target
+
+[Service]
+WorkingDirectory={{applications_dir | realpath}}/buster
+ExecStart=/bin/mvn spring-boot:run
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target

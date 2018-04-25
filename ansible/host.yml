@@ -1,0 +1,13 @@
+---
+  - hosts: all
+    become: yes
+    roles:
+      - "setup"
+      - {
+          role: "setup-postgresql",
+          postgresql_databases: [ "buster" ],
+          postgresql_users: [
+            { name: "buster", password: "i4m4pldg", db: "buster", role_attr_flags: "CREATEDB,CREATEROLE,SUPERUSER" }
+          ]
+        }
+      - "build"

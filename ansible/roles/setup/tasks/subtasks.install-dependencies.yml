@@ -1,0 +1,37 @@
+---
+- name: "install git"
+  yum: name="git" state=latest
+- name: "install jdk"
+  yum: name="java-1.8.0-openjdk-devel" state=latest
+- name: "install maven"
+  yum: name="maven" state=latest
+- name: "get postgresql rpm"
+  get_url:
+    url: "https://download.postgresql.org/pub/repos/yum/9.5/redhat/rhel-7-x86_64/pgdg-centos95-9.5-2.noarch.rpm"
+    dest: "/opt/"
+    validate_certs: no
+- name: "install postgresql rpm"
+  yum: name="/opt/pgdg-centos95-9.5-2.noarch.rpm" state=installed
+- name: "install postgresql dependencies"
+  yum: name="{{item}}" state=latest
+  with_items:
+    - "postgresql95"
+    - "postgresql95-server"
+    - "postgresql95-contrib"
+    - "postgresql95-libs"
+    - "postgresql95-devel"
+- name: "init postgresql db"
+  command: "/usr/pgsql-9.5/bin/postgresql95-setup initdb"
+  ignore_errors: yes
+- name: "restart postgresql"
+  service: name="postgresql-9.5" enabled=yes state=restarted
+- name: "install psycopg2"
+  yum: name="python-psycopg2" state=latest
+- name: "install redis"
+  yum: name="redis" state=latest
+- name: "restart redis"
+  service: name="redis" enabled=yes state=restarted
+- name: "install pip"
+  easy_install: name="pip" state=latest
+- name: "install awscli"
+  pip: name="awscli" state=latest
