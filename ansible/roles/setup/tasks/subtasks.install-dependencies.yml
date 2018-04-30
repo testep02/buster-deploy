@@ -1,4 +1,6 @@
 ---
+- name: install vim
+  yum: name="vim" state=latest
 - name: "install git"
   yum: name="git" state=latest
 - name: "install jdk"

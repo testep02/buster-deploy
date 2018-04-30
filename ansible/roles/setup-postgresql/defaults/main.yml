@@ -8,5 +8,4 @@ postgresql_pg_hba_users:
     - { type: "host", database: "all", user: "all", address: "::1/0", method: "md5" }
 
 postgresql_databases: []
-
 postgresql_users: []

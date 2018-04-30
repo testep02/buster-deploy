@@ -9,7 +9,7 @@
 - include: "operations/download.yml"
   vars:
     name: "buster"
-    git_url: "ssh://git@stash2015.rd.rcg.local:7999/deploy/buster.git"
-    local_git_url: "http://stash2015.rd.rcg.local:7990/scm/deploy/buster.git"
+    git_url: "https://github.com/testep02/buster.git"
+    local_git_url: "http://github.com/testep02/buster.git"
     version: "{{version_buster}}"
   when: "update_buster"
