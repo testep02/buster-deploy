@@ -1,0 +1,20 @@
+---
+- name: sfdx download
+  get_url:
+    url: "https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz"
+    dest: "/opt"
+    validate_certs: no
+- name: sfdx create install directory
+  file:
+    path: "/opt/sfdx"
+    state: "directory"
+    mode: 0755
+- name: sfdx unpack
+  unarchive:
+    src: "/opt/sfdx-linux-amd64.tar.xz"
+    dest: "/opt/sfdx"
+    remote_src: yes
+- name: sfdx run install script
+  shell: "./sfdx/install"
+  args:
+    chdir: "/opt"
