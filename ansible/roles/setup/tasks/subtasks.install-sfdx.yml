@@ -10,10 +10,9 @@
     state: "directory"
     mode: 0755
 - name: sfdx unpack
-  unarchive:
-    src: "/opt/sfdx-linux-amd64.tar.xz"
-    dest: "/opt/sfdx"
-    remote_src: yes
+  shell: "tar xJf sfdx-linux-amd64.tar.xz -C sfdx --strip-components 1"
+  args:
+    chdir: "/opt"
 - name: sfdx run install script
   shell: "./sfdx/install"
   args:
